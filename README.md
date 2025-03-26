@@ -1,4 +1,4 @@
-# [svelte-monaco](https://leodog896.github.io/svelte-monaco)
+# [svelte-monaco](https://tristan-f-r.github.io/svelte-monaco)
 
 [![npm](https://img.shields.io/npm/v/svelte-monaco)](https://npmjs.com/package/svelte-monaco)
 
