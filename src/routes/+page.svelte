@@ -4,10 +4,10 @@
 
 	import Monaco, { themeNames } from '$lib/index';
 
-	let value = 'const x = 5';
-	let readOnly = false;
-	let theme = 'vs-dark';
-	let language = 'typescript';
+	let value = $state('const x = 5');
+	let readOnly = $state(false);
+	let theme = $state('vs-dark');
+	let language = $state('typescript');
 
 	function selectTheme(themeSelection: string) {
 		return () => {
@@ -60,13 +60,13 @@
 				}}
 			/>
 		</div>
-		<textarea bind:value />
+		<textarea bind:value></textarea>
 	</div>
 
 	<h2>Options</h2>
 	<p>
 		<b>NOTE</b>: Options can be any JSON object that is passed straight to monaco. This, for
-		demonstartion, only shows the advanced theme option, and a readonly option.
+		demonstration, only shows the advanced theme option, and a readonly option.
 	</p>
 
 	<!-- readonly checkbox -->
@@ -83,7 +83,7 @@
 	<p>Available themes:</p>
 	<div id="themes">
 		{#each themeNames as buttonTheme}
-			<button on:click={selectTheme(buttonTheme)} class:active={theme === buttonTheme}>
+			<button onclick={selectTheme(buttonTheme)} class:active={theme === buttonTheme}>
 				{buttonTheme}
 			</button>
 		{/each}

@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	export const exportedThemes = Object.fromEntries(
 		Object.entries(import.meta.glob('/node_modules/monaco-themes/themes/*.json')).map(([k, v]) => [
 			k.toLowerCase().split('/').reverse()[0].slice(0, -'.json'.length).replaceAll(' ', '-'),
@@ -19,21 +19,30 @@
 	import { createEventDispatcher } from 'svelte';
 	import loader from '@monaco-editor/loader';
 
-	let monaco: typeof Monaco;
+	let monaco: typeof Monaco | undefined = $state();
 
 	const dispatch = createEventDispatcher<{
 		ready: Monaco.editor.IStandaloneCodeEditor;
 	}>();
 
-	let container: HTMLDivElement;
-	export let editor: Monaco.editor.IStandaloneCodeEditor | undefined = undefined;
-	export let value: string;
+	let container: HTMLDivElement | undefined = $state();
 
-	export let theme: string | undefined = undefined;
-	export let options: Monaco.editor.IStandaloneEditorConstructionOptions = {
-		value,
-		automaticLayout: true
-	};
+	interface Props {
+		editor?: Monaco.editor.IStandaloneCodeEditor | undefined;
+		value: string;
+		theme?: string | undefined;
+		options?: Monaco.editor.IStandaloneEditorConstructionOptions;
+	}
+
+	let {
+		editor = $bindable(undefined),
+		value = $bindable(),
+		theme = undefined,
+		options = {
+			value,
+			automaticLayout: true
+		}
+	}: Props = $props();
 
 	function refreshTheme() {
 		if (theme) {
@@ -49,21 +58,31 @@
 		}
 	}
 
-	$: if (theme) refreshTheme();
+	$effect(() => {
+		if (theme) refreshTheme();
+	});
 
-	$: editor?.updateOptions(options);
-	$: model = editor?.getModel();
-	$: (model && options.language) ? monaco.editor.setModelLanguage(model, options.language) : void 0;
+	$effect(() => {
+		editor?.updateOptions(options);
+	});
 
-	$: if (editor && editor.getValue() != value) {
-		const position = editor.getPosition();
-		editor.setValue(value);
-		if (position) editor.setPosition(position);
-	}
+	let model = $derived(editor?.getModel());
+	
+	$effect(() => {
+		(model && options.language) ? monaco!.editor.setModelLanguage(model, options.language) : void 0;
+	});
+
+	$effect(() => {
+		if (editor && editor.getValue() != value) {
+			const position = editor.getPosition();
+			editor.setValue(value);
+			if (position) editor.setPosition(position);
+		}
+	});
 
 	onMount(async () => {
 		monaco = await loader.init();
-		editor = monaco.editor.create(container, options);
+		editor = monaco.editor.create(container!, options);
 
 		dispatch('ready', editor);
 
@@ -78,7 +97,7 @@
 	onDestroy(() => editor?.dispose());
 </script>
 
-<div class="monaco-container" bind:this={container} />
+<div class="monaco-container" bind:this={container}></div>
 
 <style>
 	div.monaco-container {
