@@ -14,24 +14,24 @@
 </script>
 
 <script lang="ts">
-	import type Monaco from 'monaco-editor';
+	import * as MonacoE from 'monaco-editor';
 	import { onDestroy, onMount } from 'svelte';
 	import { createEventDispatcher } from 'svelte';
 	import loader from '@monaco-editor/loader';
 
-	let monaco: typeof Monaco | undefined = $state();
+	let monaco: typeof MonacoE | undefined = $state();
 
 	const dispatch = createEventDispatcher<{
-		ready: Monaco.editor.IStandaloneCodeEditor;
+		ready: MonacoE.editor.IStandaloneCodeEditor;
 	}>();
 
 	let container: HTMLDivElement | undefined = $state();
 
 	interface Props {
-		editor?: Monaco.editor.IStandaloneCodeEditor | undefined;
+		editor?: MonacoE.editor.IStandaloneCodeEditor | undefined;
 		value: string;
 		theme?: string | undefined;
-		options?: Monaco.editor.IStandaloneEditorConstructionOptions;
+		options?: MonacoE.editor.IStandaloneEditorConstructionOptions;
 	}
 
 	let {
