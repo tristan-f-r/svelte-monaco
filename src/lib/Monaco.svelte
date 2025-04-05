@@ -14,7 +14,7 @@
 </script>
 
 <script lang="ts">
-	import * as MonacoE from 'monaco-editor';
+	import type MonacoE from 'monaco-editor';
 	import { onDestroy, onMount } from 'svelte';
 	import { createEventDispatcher } from 'svelte';
 	import loader from '@monaco-editor/loader';

@@ -5,7 +5,7 @@
 		"monaco",
 		"svelte"
 	],
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -56,7 +56,7 @@
 		"eslint": "^8.45.0",
 		"eslint-config-prettier": "^8.8.0",
 		"eslint-plugin-svelte3": "^4.0.0",
-		"monaco-editor": "^0.41.0",
+		"monaco-editor": "^0.52.2",
 		"prettier": "^3.1.0",
 		"prettier-plugin-svelte": "^3.2.6",
 		"publint": "^0.1.16",
@@ -68,11 +68,11 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@monaco-editor/loader": "^1.4.0",
+		"@monaco-editor/loader": "^1.5.0",
 		"monaco-themes": "^0.4.4"
 	},
 	"peerDependencies": {
-		"monaco-editor": ">=0.40.0 < 1",
+		"monaco-editor": ">=0.50.0 < 1",
 		"svelte": ">=4.0.0"
 	}
 }
