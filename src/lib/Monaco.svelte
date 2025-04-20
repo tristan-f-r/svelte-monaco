@@ -19,8 +19,6 @@
 	import { createEventDispatcher } from 'svelte';
 	import loader from '@monaco-editor/loader';
 
-	let monaco: typeof MonacoE | undefined = $state();
-
 	const dispatch = createEventDispatcher<{
 		ready: MonacoE.editor.IStandaloneCodeEditor;
 	}>();
@@ -32,6 +30,7 @@
 		value: string;
 		theme?: string | undefined;
 		options?: MonacoE.editor.IStandaloneEditorConstructionOptions;
+		monaco?: typeof MonacoE;
 	}
 
 	let {
@@ -41,7 +40,8 @@
 		options = {
 			value,
 			automaticLayout: true
-		}
+		},
+		monaco = $bindable()
 	}: Props = $props();
 
 	function refreshTheme() {
